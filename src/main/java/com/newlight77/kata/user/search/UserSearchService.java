@@ -1,75 +1,45 @@
 package com.newlight77.kata.user.search;
 
-import java.util.Comparator;
+import com.newlight77.kata.user.search.display.ResultDisplayer;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserSearchService {
-    enum ORDER_TYPE {
-        BY_LASTNAME,
-        BY_FIRSTNAME,
-        BY_AGE,
-        DEFAULT;
-    }
-
+    private ResultDisplayer displayer;
     private UserRepository repository;
 
-    public UserSearchService(UserRepository repository) {
+    public UserSearchService(UserRepository repository, ResultDisplayer displayer) {
         this.repository = repository;
+        this.displayer = displayer;
     }
 
     public List<User> search(UserSearchCriteria criteria) {
         List<User> result;
-        result = repository.getUsers().stream()
-                    .filter(u -> {
-                        if (criteria.getName() != null) {
-                            return u.getFirstname().toLowerCase().contains(criteria.getName().toLowerCase())
-                                || u.getLastname().toLowerCase().contains(criteria.getName().toLowerCase());
-                        }
-                        return true;
-                    })
-                    .filter(u -> {
-                        if (criteria.getAge() != null) {
-                            return criteria.getAge() == u.getAge();
-                        }
-                        return true;
-                    })
-                    .collect(Collectors.toList());
-        display(result, ORDER_TYPE.DEFAULT);
+        result = filterUser(criteria, repository.getUsers());
+        displayer.display(result);
         return result;
     }
 
-    public void display(List<User> users, ORDER_TYPE orderType) {
-        String text = "";
-        switch (orderType) {
-            case BY_LASTNAME:
-                text = users.stream()
-                    .sorted(Comparator.comparing(User::getLastname))
-                    .map(u -> u.getFirstname() + " " + u.getLastname())
-                    .collect(Collectors.joining(", ",
-                        "displaying users ordered by lastname: ", ""));
-                break;
-            case BY_FIRSTNAME:
-                text = users.stream()
-                    .sorted(Comparator.comparing(User::getFirstname))
-                    .map(u -> u.getFirstname() + " " + u.getLastname())
-                    .collect(Collectors.joining(", ",
-                        "displaying users ordered by firstname :", ""));
-                break;
-            case BY_AGE:
-                text = users.stream()
-                    .sorted(Comparator.comparing(User::getAge))
-                    .map(u -> u.getFirstname() + " " + u.getLastname())
-                    .collect(Collectors.joining(", ",
-                        "displaying users ordered by age : ", ""));
-                break;
-            case DEFAULT:
-            default:
-                text = users.stream()
-                    .map(u -> u.getFirstname() + " " + u.getLastname())
-                    .collect(Collectors.joining(", ",
-                        "displaying in natural order : ", ""));
+    private List<User> filterUser(UserSearchCriteria criteria, List<User> users) {
+        return users.stream()
+                .filter(u -> nameMatched(criteria, u))
+                .filter(u -> ageMatched(criteria, u))
+                .collect(Collectors.toList());
+    }
+
+    private boolean nameMatched(UserSearchCriteria criteria, User user) {
+        if (criteria.getName() != null) {
+            return user.getFirstname().toLowerCase().contains(criteria.getName().toLowerCase())
+                    || user.getLastname().toLowerCase().contains(criteria.getName().toLowerCase());
         }
-        System.out.println(text);
+        return true;
+    }
+
+    private boolean ageMatched(UserSearchCriteria criteria, User user) {
+        if (criteria.getAge() != null) {
+            return criteria.getAge() == user.getAge();
+        }
+        return true;
     }
 }

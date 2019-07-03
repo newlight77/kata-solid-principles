@@ -1,5 +1,7 @@
 package com.newlight77.kata.user.search;
 
+import com.newlight77.kata.user.search.display.ResultDisplayer;
+import com.newlight77.kata.user.search.display.ResultDisplayerNaturalOrder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +13,8 @@ public class UserSearchServiceTest {
     public void should_find_users_by_name() {
         // arrange
         UserRepository repository = new UserRepositoryStub();
-        UserSearchService service = new UserSearchService(repository);
+        ResultDisplayer displayer = new ResultDisplayerNaturalOrder();
+        UserSearchService service = new UserSearchService(repository, displayer);
 
         // act
         List<User> result = service.search(UserSearchCriteria.builder().name("t").build());
@@ -29,7 +32,8 @@ public class UserSearchServiceTest {
     public void should_find_users_by_age() {
         // arrange
         UserRepository repository = new UserRepositoryStub();
-        UserSearchService service = new UserSearchService(repository);
+        ResultDisplayer displayer = new ResultDisplayerNaturalOrder();
+        UserSearchService service = new UserSearchService(repository, displayer);
 
         // act
         List<User> result = service.search(UserSearchCriteria.builder().age(37).build());
@@ -44,7 +48,8 @@ public class UserSearchServiceTest {
     public void should_not_find_users_with_no_matching_criteria() {
         // arrange
         UserRepository repository = new UserRepositoryStub();
-        UserSearchService service = new UserSearchService(repository);
+        ResultDisplayer displayer = new ResultDisplayerNaturalOrder();
+        UserSearchService service = new UserSearchService(repository, displayer);
 
         // act
         List<User> result = service.search(UserSearchCriteria.builder().name("tttt").age(55).build());

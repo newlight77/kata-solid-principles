@@ -1,5 +1,7 @@
 package com.newlight77.kata.user.search;
 
+import com.newlight77.kata.user.search.display.ResultDisplayer;
+import com.newlight77.kata.user.search.display.ResultDisplayerNaturalOrder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -22,7 +24,8 @@ public class UserSearchClientTest {
         // arrange
         UserSearchService service = Mockito.mock(UserSearchService.class);
         Mockito.when(service.search(Mockito.isA(UserSearchCriteria.class))).thenReturn(users);
-        UserSearchClient client = new UserSearchClient(service);
+        ResultDisplayer displayer = new ResultDisplayerNaturalOrder();
+        UserSearchClient client = new UserSearchClient(service, displayer);
 
         // act
         List<User> result = client.search(UserSearchCriteria.builder().name("t").build());
