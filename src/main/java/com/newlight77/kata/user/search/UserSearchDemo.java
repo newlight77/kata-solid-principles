@@ -1,5 +1,8 @@
 package com.newlight77.kata.user.search;
 
+import com.newlight77.kata.user.search.display.OrderedResultDisplayer;
+import com.newlight77.kata.user.search.display.ResultDisplayer;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -19,11 +22,11 @@ public class UserSearchDemo {
         System.out.println("---------------    -------------------------    -----------------");
 
         UserRepository repository = new UserRepository(users);
-        UserSearchService service = new UserSearchService(repository);
-        UserSearchClient client = new UserSearchClient(service);
-
+        UserSearchService service = new UserSearchService(repository, new OrderedResultDisplayer());
+        UserSearchClient client = new UserSearchClient(service, new OrderedResultDisplayer());
         List<User> result = client.search(UserSearchCriteria.builder().name("t").build());
 
-        service.display(result, UserSearchService.ORDER_TYPE.BY_AGE);
+        ResultDisplayer displayer = new OrderedResultDisplayer();
+        displayer.displayOrderedByAge(result);
     }
 }
