@@ -13,6 +13,7 @@ public class ResultDisplayer {
 
     enum ORDER_TYPE {
         BY_LASTNAME,
+        BY_FIRSTNAME,
         BY_AGE,
         DEFAULT;
     }
@@ -26,6 +27,13 @@ public class ResultDisplayer {
                         .map(u -> u.getFirstname() + " " + u.getLastname())
                         .collect(Collectors.joining(", ",
                                 "display users : ", ""));
+                break;
+            case BY_FIRSTNAME:
+                text = users.stream()
+                        .sorted(Comparator.comparing(User::getFirstname))
+                        .map(u -> u.getFirstname() + " " + u.getLastname())
+                        .collect(Collectors.joining(", ",
+                                "displaying users ordered by firstname :", ""));
                 break;
             case BY_AGE:
                 text = users.stream()
