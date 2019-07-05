@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserSearchService {
-    private final ResultDisplayer resultDisplayer = new ResultDisplayer(new ConsolePrinter());
-
     private UserRepository repository;
 
     public UserSearchService(UserRepository repository) {
@@ -13,9 +11,8 @@ public class UserSearchService {
     }
 
     public List<User> search(UserSearchCriteria criteria) {
-        List<User> result;
-        result = filterUser(criteria, repository.getUsers());
-        resultDisplayer.display(result, ResultDisplayer.ORDER_TYPE.DEFAULT);
+        List<User> result = filterUser(criteria, repository.getUsers());
+        new ResultDisplayer(new ConsolePrinter()).display(result);
         return result;
     }
 
