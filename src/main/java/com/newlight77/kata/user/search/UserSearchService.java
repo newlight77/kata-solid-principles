@@ -1,14 +1,10 @@
 package com.newlight77.kata.user.search;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserSearchService {
-    enum ORDER_TYPE {
-        BY_LASTNAME,
-        DEFAULT;
-    }
+    private final ResultDisplayer resultDisplayer = new ResultDisplayer();
 
     private UserRepository repository;
 
@@ -33,27 +29,7 @@ public class UserSearchService {
                         return true;
                     })
                     .collect(Collectors.toList());
-        display(result, ORDER_TYPE.DEFAULT);
+        resultDisplayer.display(result, ResultDisplayer.ORDER_TYPE.DEFAULT);
         return result;
-    }
-
-    public void display(List<User> users, ORDER_TYPE orderType) {
-        String text = "";
-        switch (orderType) {
-            case BY_LASTNAME:
-                text = users.stream()
-                    .sorted(Comparator.comparing(User::getLastname))
-                    .map(u -> u.getFirstname() + " " + u.getLastname())
-                    .collect(Collectors.joining(", ",
-                        "displaying users ordered by lastname: ", ""));
-                break;
-            case DEFAULT:
-            default:
-                text = users.stream()
-                    .map(u -> u.getFirstname() + " " + u.getLastname())
-                    .collect(Collectors.joining(", ",
-                        "displaying in natural order : ", ""));
-        }
-        System.out.println(text);
     }
 }

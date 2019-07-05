@@ -11,7 +11,7 @@ public class UserSearchClient {
 
     public List<User> search(UserSearchCriteria criteria) {
         List<User> result = service.search(criteria);
-        service.display(result, UserSearchService.ORDER_TYPE.BY_LASTNAME);
+        new ResultDisplayer().display(result, ResultDisplayer.ORDER_TYPE.BY_LASTNAME);
         return result;
     }
 }

@@ -2,8 +2,6 @@ package com.newlight77.kata.user.search;
 
 import lombok.*;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

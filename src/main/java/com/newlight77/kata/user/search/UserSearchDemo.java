@@ -23,5 +23,6 @@ public class UserSearchDemo {
         UserSearchClient client = new UserSearchClient(service);
 
         List<User> result = client.search(UserSearchCriteria.builder().name("t").build());
+        new ResultDisplayer().display(result, ResultDisplayer.ORDER_TYPE.DEFAULT);
     }
 }
