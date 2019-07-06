@@ -14,22 +14,30 @@ public class UserSearchService {
 
     public List<User> search(UserSearchCriteria criteria) {
         List<User> result;
-        result = repository.getUsers().stream()
-                    .filter(u -> {
-                        if (criteria.getName() != null) {
-                            return u.getFirstname().toLowerCase().contains(criteria.getName().toLowerCase())
-                                || u.getLastname().toLowerCase().contains(criteria.getName().toLowerCase());
-                        }
-                        return true;
-                    })
-                    .filter(u -> {
-                        if (criteria.getAge() != null) {
-                            return criteria.getAge() == u.getAge();
-                        }
-                        return true;
-                    })
-                    .collect(Collectors.toList());
+        result = filterUser(criteria, repository.getUsers());
         resultDisplayer.display(result, ResultDisplayer.ORDER_TYPE.DEFAULT);
         return result;
+    }
+
+    private List<User> filterUser(UserSearchCriteria criteria, List<User> users) {
+        return users.stream()
+                .filter(u -> nameMatched(criteria, u))
+                .filter(u -> ageMatched(criteria, u))
+                .collect(Collectors.toList());
+    }
+
+    private boolean nameMatched(UserSearchCriteria criteria, User user) {
+        if (criteria.getName() != null) {
+            return user.getFirstname().toLowerCase().contains(criteria.getName().toLowerCase())
+                    || user.getLastname().toLowerCase().contains(criteria.getName().toLowerCase());
+        }
+        return true;
+    }
+
+    private boolean ageMatched(UserSearchCriteria criteria, User user) {
+        if (criteria.getAge() != null) {
+            return criteria.getAge() == user.getAge();
+        }
+        return true;
     }
 }
