@@ -20,7 +20,7 @@ public class UserSearchDemo {
 
         ConsolePrinter consolePrinter = new ConsolePrinter();
         UserRepository repository = new UserRepository(users);
-        UserSearchService service = new UserSearchService(repository);
+        UserSearchService service = new UserSearchService(repository, new ResultDisplayerOrderByLastname(consolePrinter));
         UserSearchClient client = new UserSearchClient(service);
 
         List<User> result = client.search(UserSearchCriteria.builder().name("t").build());

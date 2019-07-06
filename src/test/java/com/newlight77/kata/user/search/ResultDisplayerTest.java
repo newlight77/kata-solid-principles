@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ResultDisplayerTest {
+
     List<User> users = Arrays.asList(
             User.builder().uid(2).firstname("Kong").lastname("To").age(37).email("kto@wesquad.io").build(),
             User.builder().uid(1).firstname("Peter").lastname("Ly").age(21).email("ply@wesquad.io").build(),
@@ -18,7 +19,7 @@ public class ResultDisplayerTest {
     public void display_users() {
         // arrange
         ConsolePrinterSpy consolePrinter = new ConsolePrinterSpy();
-        ResultDisplayer displayer = new ResultDisplayer(consolePrinter);
+        ResultDisplayer displayer = new ResultDisplayerNoOrder(consolePrinter);
 
         // act
         displayer.display(users);

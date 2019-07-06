@@ -1,18 +1,20 @@
 package com.newlight77.kata.user.search;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserSearchService {
     private UserRepository repository;
-
-    public UserSearchService(UserRepository repository) {
-        this.repository = repository;
-    }
+    private ResultDisplayer displayer;
 
     public List<User> search(UserSearchCriteria criteria) {
         List<User> result = filterUser(criteria, repository.getUsers());
-        new ResultDisplayer(new ConsolePrinter()).display(result);
+        displayer.display(result);
         return result;
     }
 

@@ -5,19 +5,17 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
-public class ResultDisplayer {
-    protected ConsolePrinter consolePrinter;
+public interface ResultDisplayer {
 
-    protected void sort(List<User> users) {
-        // no sorting
-    }
+    ConsolePrinter getConsolePrinter();
 
-    public final void display(List<User> users) {
+    void sort(List<User> users);
+
+    default void display(List<User> users) {
         sort(users);
         String text = users.stream()
                 .map(u -> u.getFirstname() + " " + u.getLastname())
                 .collect(Collectors.joining(", ", "display users : ", ""));
-        consolePrinter.print(text);
+        getConsolePrinter().print(text);
     }
 }

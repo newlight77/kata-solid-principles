@@ -1,16 +1,19 @@
 package com.newlight77.kata.user.search;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ResultDisplayerOrderByLastname extends ResultDisplayer {
-    public ResultDisplayerOrderByLastname(ConsolePrinter consolePrinter) {
-        super(consolePrinter);
-    }
+@AllArgsConstructor
+public class ResultDisplayerOrderByLastname implements ResultDisplayer {
+
+    @Getter
+    private ConsolePrinter consolePrinter;
 
     @Override
-    protected void sort(List<User> users) {
+    public void sort(List<User> users) {
         users.sort(Comparator.comparing(User::getLastname));
     }
 }
