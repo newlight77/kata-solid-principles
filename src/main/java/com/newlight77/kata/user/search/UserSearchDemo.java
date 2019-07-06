@@ -18,14 +18,15 @@ public class UserSearchDemo {
         users.forEach(u -> System.out.println("user -> " + u));
         System.out.println("---------------    -------------------------    -----------------");
 
-        ConsolePrinter consolePrinter = new ConsolePrinter();
         UserRepository repository = new UserRepository(users);
-        UserSearchService service = new UserSearchService(repository, new ResultDisplayerOrderByLastname(consolePrinter));
+        ConsolePrinter consolePrinter = new ConsolePrinter();
+        ResultDisplayerConsole displayerConsole = new ResultDisplayerConsole(consolePrinter);
+        UserSearchService service = new UserSearchService(repository, displayerConsole);
         UserSearchClient client = new UserSearchClient(service);
 
         List<User> result = client.search(UserSearchCriteria.builder().name("t").build());
 
-        new ResultDisplayerOrderByAge(consolePrinter).display(result);
-        new ResultDisplayerOrderByEmail(consolePrinter).display(result);
+        new ResultOrderByAge().sort(result);
+        displayerConsole.display(result);
     }
 }
