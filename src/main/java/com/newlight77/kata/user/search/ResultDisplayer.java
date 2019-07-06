@@ -9,7 +9,12 @@ import java.util.stream.Collectors;
 public class ResultDisplayer {
     protected ConsolePrinter consolePrinter;
 
-    public void display(List<User> users) {
+    protected void sort(List<User> users) {
+        // no sorting
+    }
+
+    public final void display(List<User> users) {
+        sort(users);
         String text = users.stream()
                 .map(u -> u.getFirstname() + " " + u.getLastname())
                 .collect(Collectors.joining(", ", "display users : ", ""));

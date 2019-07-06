@@ -10,11 +10,7 @@ public class ResultDisplayerOrderByLastname extends ResultDisplayer {
     }
 
     @Override
-    public void display(List<User> users) {
-        String text = users.stream()
-                .sorted(Comparator.comparing(User::getLastname))
-                .map(u -> u.getFirstname() + " " + u.getLastname())
-                .collect(Collectors.joining(", ", "display users : ", ""));
-        consolePrinter.print(text);
+    protected void sort(List<User> users) {
+        users.sort(Comparator.comparing(User::getLastname));
     }
 }

@@ -10,11 +10,7 @@ public class ResultDisplayerOrderByAge extends ResultDisplayer {
     }
 
     @Override
-    public void display(List<User> users) {
-        String text = users.stream()
-                .sorted(Comparator.comparing(User::getAge))
-                .map(u -> u.getFirstname() + " " + u.getLastname())
-                .collect(Collectors.joining(", ", "display users : ", ""));
-        consolePrinter.print(text);
+    protected void sort(List<User> users) {
+        users.sort(Comparator.comparing(User::getAge));
     }
 }

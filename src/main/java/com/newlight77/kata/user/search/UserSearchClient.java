@@ -11,7 +11,7 @@ public class UserSearchClient {
 
     public List<User> search(UserSearchCriteria criteria) {
         List<User> result = service.search(criteria);
-        new ResultDisplayerOrderByLastname(new ConsolePrinter()).display(result);
+        new ResultDisplayer(new ConsolePrinter()).display(result);
         return result;
     }
 }
