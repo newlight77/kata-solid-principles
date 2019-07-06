@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserSearchService {
-    private final ResultDisplayer resultDisplayer = new ResultDisplayer();
+    private final ResultDisplayer resultDisplayer = new ResultDisplayer(new ConsolePrinter());
 
     private UserRepository repository;
 
