@@ -21,12 +21,13 @@ public class UserSearchDemo {
         UserRepository repository = new UserRepository(users);
         ConsolePrinter consolePrinter = new ConsolePrinter();
         ResultDisplayerConsole displayerConsole = new ResultDisplayerConsole(consolePrinter);
-        UserSearchService service = new UserSearchService(repository, displayerConsole);
-        UserSearchClient client = new UserSearchClient(service);
+        UserSearchService service = new UserSearchService(repository, displayerConsole, new ResultOrderByLastname());
+        UserSearchClient client = new UserSearchClient(service, new ResultOrderByEmail(), displayerConsole);
 
         List<User> result = client.search(UserSearchCriteria.builder().name("t").build());
 
         new ResultOrderByAge().sort(result);
+
         displayerConsole.display(result);
     }
 }

@@ -8,10 +8,13 @@ import java.util.List;
 public class UserSearchClient {
 
     private UserSearchService service;
+    private ResultOrderer orderer;
+    private ResultDisplayer displayer;
 
     public List<User> search(UserSearchCriteria criteria) {
         List<User> result = service.search(criteria);
-        new ResultDisplayerConsole(new ConsolePrinter()).display(result);
+        orderer.sort(result);
+        displayer.display(result);
         return result;
     }
 }

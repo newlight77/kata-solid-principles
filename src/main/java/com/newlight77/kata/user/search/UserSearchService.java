@@ -11,9 +11,11 @@ import java.util.stream.Collectors;
 public class UserSearchService {
     private UserRepository repository;
     private ResultDisplayer displayer;
+    private ResultOrderer orderer;
 
     public List<User> search(UserSearchCriteria criteria) {
         List<User> result = filterUser(criteria, repository.getUsers());
+        orderer.sort(result);
         displayer.display(result);
         return result;
     }
